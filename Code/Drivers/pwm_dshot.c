@@ -9,6 +9,8 @@
 
 
 uint16_t ESC_CMD[ESC_CMD_BUF_LEN]={0};
+uint16_t ESC_CMD2[ESC_CMD_BUF_LEN]={0};
+
 
 static uint16_t prepareDshotPacket(const uint16_t value, int8_t requestTelemetry)
 {

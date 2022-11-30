@@ -15,6 +15,8 @@
 #define ESC_CMD_BUF_LEN 18
 
 extern uint16_t ESC_CMD[ESC_CMD_BUF_LEN];
+extern uint16_t ESC_CMD2[ESC_CMD_BUF_LEN];
+
 
 void pwmWriteDigital(uint16_t *esc_cmd, uint16_t value);
 

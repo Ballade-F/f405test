@@ -23,9 +23,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		MPU6000Read();
 //		BMP280GetData(&bmp_p,&bmp_t);
 	    uint16_t valuetest = 100;
+	    uint16_t valuetest2 = 128;
+
 	    pwmWriteDigital(ESC_CMD,valuetest);
+	    pwmWriteDigital(ESC_CMD2,valuetest2);
+
 	//	delay_us(1000);
 		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
+		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)ESC_CMD2,ESC_CMD_BUF_LEN);
+
 		//INV_DataUpdate();
 	}
 }
