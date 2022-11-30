@@ -18,11 +18,18 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "common.h"
+#include "debug.h"
+#include "mpu6000.h"
+#include "bmp280.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -84,8 +91,15 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_SPI1_Init();
+  MX_USART1_UART_Init();
+  MX_TIM6_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
+  Common_Init();
+//  MPU6000_Init();
+  BMP280_Init();
+   HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -95,6 +109,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+//	float test[6] = {(float)(MPU6000_Data.acc_x),(float)(MPU6000_Data.acc_y),(float)(MPU6000_Data.acc_z),(float)(MPU6000_Data.gyro_x),(float)(MPU6000_Data.gyro_y),(float)(MPU6000_Data.gyro_z)};
+    float test[6] = {bmp_t,bmp_p,1,0,1,0};
+	Debug_VarUpload((float*)(test),2,&huart1);
+	delay_ms(10);
+
+
   }
   /* USER CODE END 3 */
 }
