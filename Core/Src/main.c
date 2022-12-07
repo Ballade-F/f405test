@@ -101,7 +101,7 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   Common_Init();
-//  MPU6000_Init();
+  MPU6000_Init();
   BMP280_Init();
    HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */

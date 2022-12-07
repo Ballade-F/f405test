@@ -51,6 +51,8 @@
 MPU6000_Handle_t mpu6000;
 MPU6000_DATA_t MPU6000_Data;
 
+float test_gyro;
+
 void mpu6000_handle_set(void)
 {
 	mpu6000.spi_ch = &hspi1;

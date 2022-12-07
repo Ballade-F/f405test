@@ -20,17 +20,24 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 //		PMW3901_Update();
 //		float test[2] = {(float)PMW3901_Motion.deltaX,(float)PMW3901_Motion.deltaY};
-//		MPU6000Read();
+		MPU6000Read();
+		test_gyro = (MPU6000_Data.gyro_x + 59.0f) / 131.0f;
+		test_gyro = (MPU6000_Data.gyro_y + 59.0f) / 131.0f;
+		if(test_gyro<0.1)
+		{
+			test_gyro = 0.1;
+		}
 //		BMP280GetData(&bmp_p,&bmp_t);
-	    uint16_t valuetest = 100;
-	    uint16_t valuetest2 = 128;
 
-	    pwmWriteDigital(ESC_CMD,valuetest);
-	    pwmWriteDigital(ESC_CMD2,valuetest2);
+//	    uint16_t valuetest = 100;
+//	    uint16_t valuetest2 = 128;
 
-	//	delay_us(1000);
-		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
-		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)ESC_CMD2,ESC_CMD_BUF_LEN);
+//	    pwmWriteDigital(ESC_CMD,valuetest);
+//	    pwmWriteDigital(ESC_CMD2,valuetest2);
+//
+//	//	delay_us(1000);
+//		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
+//		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)ESC_CMD2,ESC_CMD_BUF_LEN);
 
 		//INV_DataUpdate();
 	}

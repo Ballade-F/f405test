@@ -155,6 +155,8 @@ typedef struct mpu6000_data
 extern MPU6000_Handle_t mpu6000;
 extern MPU6000_DATA_t MPU6000_Data;
 
+extern float test_gyro;
+
 
 void MPU6000_Init(void);
 void MPU6000Read(void);
