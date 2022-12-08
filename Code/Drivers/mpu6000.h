@@ -106,6 +106,13 @@
 // RF = Register Flag
 #define MPU_RF_DATA_RDY_EN (1 << 0)
 
+//unit
+//2000 degree per second(DPS),2000/32768
+#define GYRO_UNIT 0.06103515625f
+
+//8G, 8.0 * 9.8 / 32768
+#define ACC_UNIT 0.00239257812f
+
 enum mpu6000_dlpf_bw {
 	MPU6000_DLPF_BW_256 = 0,
 	MPU6000_DLPF_BW_188,
@@ -140,22 +147,33 @@ typedef struct mpu6000_handle
 
 }MPU6000_Handle_t;
 
-typedef struct mpu6000_data
+typedef struct mpu6000_rawData
 {
-	int16_t acc_x;
-	int16_t acc_y;
-	int16_t acc_z;
+	float acc[3];
+	float gyro[3];
 
-	int16_t gyro_x;
-	int16_t gyro_y;
-	int16_t gyro_z;
+	float gyro_zero[3];
+	float acc_ave[3];
 
-}MPU6000_DATA_t;
+}MPU6000_RawData_t;
+
+typedef struct imu_data
+{
+	float acc_x;
+	float acc_y;
+	float acc_z;
+
+	float gyro_x;
+	float gyro_y;
+	float gyro_z;
+
+}IMU_DATA_t;
 
 extern MPU6000_Handle_t mpu6000;
-extern MPU6000_DATA_t MPU6000_Data;
+extern MPU6000_RawData_t MPU6000_Data;
+extern IMU_DATA_t IMU_UserData;
 
-extern float test_gyro;
+
 
 
 void MPU6000_Init(void);

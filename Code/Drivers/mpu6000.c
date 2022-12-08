@@ -49,9 +49,10 @@
 
 
 MPU6000_Handle_t mpu6000;
-MPU6000_DATA_t MPU6000_Data;
+MPU6000_RawData_t MPU6000_rawData;
+IMU_DATA_t IMU_UserData;
 
-float test_gyro;
+
 
 void mpu6000_handle_set(void)
 {
@@ -101,6 +102,54 @@ void _speedSet10M(SPI_HandleTypeDef *hspi)
 	                                  (hspi->Init.CRCCalculation & SPI_CR1_CRCEN)));
 }
 
+void MPU6000_selfTest(void)
+{
+	delay_ms(1);
+	int i;
+	//清零
+	for(i = 0;i<3;++i)
+	{
+		MPU6000_rawData.acc_ave[i] = 0;
+	}
+	for(i = 0;i<3;++i)
+	{
+		MPU6000_rawData.gyro_zero[i] = 0;
+	}
+
+	//舍弃前十个数
+	i = 10;
+	while(i--)
+	{
+		MPU6000Read();
+		delay_ms(1);
+	}
+
+	//读1000次取平均，若用卡尔曼滤波则可以再取方差
+	i = 1000;
+	while(i--)
+	{
+		MPU6000Read();
+		for(int j = 0;j<3;++j)
+		{
+			MPU6000_rawData.acc_ave[j] += MPU6000_rawData.acc[j];
+		}
+		for(int j = 0;j<3;++j)
+		{
+			MPU6000_rawData.gyro_zero[j] += MPU6000_rawData.gyro[j];
+		}
+		delay_ms(1);
+	}
+
+	for(int j = 0;j<3;++j)
+	{
+		MPU6000_rawData.acc_ave[j] *= 0.001;
+	}
+	for(int j = 0;j<3;++j)
+	{
+		MPU6000_rawData.gyro_zero[j] *= 0.001;
+	}
+
+}
 
 void MPU6000_Init(void)
 {
@@ -170,19 +219,25 @@ void MPU6000Read(void)
 
 	uint8_t buffer[14];
 	mpu6000SpiReadRegister(MPU_RA_ACCEL_XOUT_H, 14, buffer);
-	MPU6000_Data.acc_x = (((int16_t) buffer[0]) << 8) | buffer[1];
-	MPU6000_Data.acc_y = (((int16_t) buffer[2]) << 8) | buffer[3];
-	MPU6000_Data.acc_z = (((int16_t) buffer[4]) << 8) | buffer[5];
-	MPU6000_Data.gyro_x = (((int16_t) buffer[8]) << 8) | buffer[9];
-	MPU6000_Data.gyro_y = (((int16_t) buffer[10]) << 8) | buffer[11];
-	MPU6000_Data.gyro_z = (((int16_t) buffer[12]) << 8) | buffer[13];
-//	delay_us(500);
-//	mpu6000SpiReadRegister(MPU_RA_ACCEL_XOUT_H, 6, buffer);
+	MPU6000_rawData.acc[0] = (float)((((int16_t) buffer[0]) << 8) | buffer[1]) * ACC_UNIT;
+	MPU6000_rawData.acc[1] = (float)((((int16_t) buffer[2]) << 8) | buffer[3]) * ACC_UNIT;
+	MPU6000_rawData.acc[2] = (float)((((int16_t) buffer[4]) << 8) | buffer[5]) * ACC_UNIT;
 
-
-
-
-
+	MPU6000_rawData.gyro[0] = (float)((((int16_t) buffer[8]) << 8) | buffer[9]) * GYRO_UNIT;
+	MPU6000_rawData.gyro[1] = (float)((((int16_t) buffer[10]) << 8) | buffer[11]) * GYRO_UNIT;
+	MPU6000_rawData.gyro[2] = (float)((((int16_t) buffer[12]) << 8) | buffer[13]) * GYRO_UNIT;
 }
 
+void MPU6000_Data_UpDate(void)
+{
+	MPU6000Read();
+	IMU_UserData.acc_x = MPU6000_rawData.acc[0];
+	IMU_UserData.acc_y = MPU6000_rawData.acc[1];
+	IMU_UserData.acc_z = MPU6000_rawData.acc[2];
+
+	IMU_UserData.gyro_x = MPU6000_rawData.gyro[0] - MPU6000_rawData.gyro_zero[0];
+	IMU_UserData.gyro_y = MPU6000_rawData.gyro[1] - MPU6000_rawData.gyro_zero[1];
+	IMU_UserData.gyro_z = MPU6000_rawData.gyro[2] - MPU6000_rawData.gyro_zero[2];
+
+}
 

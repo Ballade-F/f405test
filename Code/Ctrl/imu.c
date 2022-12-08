@@ -11,6 +11,14 @@ ANGLE_STATE_t F_S;
 float IMU_IIR_kp = 0.6;
 float IMU_IIR_ki = 0.005;
 
+void Angle_Init(void)
+{
+
+
+
+
+}
+
 void Angle_Update(float gyrox, float gyroy, float gyroz,
 				  float ax,    float ay,    float az,
 				  float dt)

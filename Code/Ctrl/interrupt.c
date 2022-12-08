@@ -20,13 +20,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 //		PMW3901_Update();
 //		float test[2] = {(float)PMW3901_Motion.deltaX,(float)PMW3901_Motion.deltaY};
-		MPU6000Read();
-		test_gyro = (MPU6000_Data.gyro_x + 59.0f) / 131.0f;
-		test_gyro = (MPU6000_Data.gyro_y + 59.0f) / 131.0f;
-		if(test_gyro<0.1)
-		{
-			test_gyro = 0.1;
-		}
+
+
 //		BMP280GetData(&bmp_p,&bmp_t);
 
 //	    uint16_t valuetest = 100;
