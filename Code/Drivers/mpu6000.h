@@ -178,7 +178,7 @@ extern IMU_DATA_t IMU_UserData;
 
 void MPU6000_Init(void);
 void MPU6000Read(void);
-
+void MPU6000_Data_UpDate(void);
 
 
 

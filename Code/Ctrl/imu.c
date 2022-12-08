@@ -13,10 +13,15 @@ float IMU_IIR_ki = 0.005;
 
 void Angle_Init(void)
 {
+	MPU6000_Init();
 
-
-
-
+	F_S.s_q[0] = 1;
+	F_S.s_q[1] = 0;
+	F_S.s_q[2] = 0;
+	F_S.s_q[3] = 0;
+	F_S.pitch = 0;
+	F_S.roll = 0;
+	F_S.yaw = 0;
 }
 
 void Angle_Update(float gyrox, float gyroy, float gyroz,

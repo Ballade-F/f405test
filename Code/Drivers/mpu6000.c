@@ -176,7 +176,7 @@ void MPU6000_Init(void)
 	//读取正常，初始化
 
 	//设置X轴陀螺作为时钟
-	mpu6000SpiWriteRegister(MPU_RA_PWR_MGMT_1, MPU_CLK_SEL_PLLGYROZ);
+	mpu6000SpiWriteRegister(MPU_RA_PWR_MGMT_1, MPU_CLK_SEL_PLLGYROX);
 	delay_ms(15);
 
 	//禁止I2C接口
@@ -208,7 +208,7 @@ void MPU6000_Init(void)
 
 	_speedSet10M(mpu6000.spi_ch);
 
-//    spi1SetSpeed(SPI_CLOCK_STANDARD);//设置SPI为中速模式
+	MPU6000_selfTest();
 
 }
 
@@ -219,25 +219,44 @@ void MPU6000Read(void)
 
 	uint8_t buffer[14];
 	mpu6000SpiReadRegister(MPU_RA_ACCEL_XOUT_H, 14, buffer);
-	MPU6000_rawData.acc[0] = (float)((((int16_t) buffer[0]) << 8) | buffer[1]) * ACC_UNIT;
-	MPU6000_rawData.acc[1] = (float)((((int16_t) buffer[2]) << 8) | buffer[3]) * ACC_UNIT;
-	MPU6000_rawData.acc[2] = (float)((((int16_t) buffer[4]) << 8) | buffer[5]) * ACC_UNIT;
 
-	MPU6000_rawData.gyro[0] = (float)((((int16_t) buffer[8]) << 8) | buffer[9]) * GYRO_UNIT;
-	MPU6000_rawData.gyro[1] = (float)((((int16_t) buffer[10]) << 8) | buffer[11]) * GYRO_UNIT;
-	MPU6000_rawData.gyro[2] = (float)((((int16_t) buffer[12]) << 8) | buffer[13]) * GYRO_UNIT;
+//	int16_t testarr[6] = {0};
+//	testarr[0] = ((uint16_t) buffer[0] << 8 | buffer[1]) ;
+//	testarr[1] = ((uint16_t) buffer[2] << 8 | buffer[3]) ;
+//	testarr[2] = ((uint16_t) buffer[4] << 8 | buffer[5]) ;
+//
+//	testarr[3] = ((uint16_t) buffer[8] << 8 | buffer[9]) ;
+//	testarr[4] = ((uint16_t) buffer[10] << 8 | buffer[11]) ;
+//	testarr[5] = ((uint16_t) buffer[12] << 8 | buffer[13]) ;
+//
+//		MPU6000_rawData.acc[0] = testarr[0];
+//		MPU6000_rawData.acc[1] = testarr[1];
+//		MPU6000_rawData.acc[2] = testarr[2];
+//
+//		MPU6000_rawData.gyro[0] = testarr[3];
+//		MPU6000_rawData.gyro[1] = testarr[4];
+//		MPU6000_rawData.gyro[2] = testarr[5];
+
+
+	MPU6000_rawData.acc[0] = (int16_t)((uint16_t) buffer[0] << 8 | buffer[1]) * ACC_UNIT;
+	MPU6000_rawData.acc[1] = (int16_t)((uint16_t) buffer[2] << 8 | buffer[3]) * ACC_UNIT;
+	MPU6000_rawData.acc[2] = (int16_t)((uint16_t) buffer[4] << 8 | buffer[5]) * ACC_UNIT;
+
+	MPU6000_rawData.gyro[0] = (int16_t)((uint16_t) buffer[8] << 8 | buffer[9]) * GYRO_UNIT;
+	MPU6000_rawData.gyro[1] = (int16_t)((uint16_t) buffer[10] << 8 | buffer[11]) * GYRO_UNIT;
+	MPU6000_rawData.gyro[2] = (int16_t)((uint16_t) buffer[12] << 8 | buffer[13]) * GYRO_UNIT;
 }
 
 void MPU6000_Data_UpDate(void)
 {
 	MPU6000Read();
-	IMU_UserData.acc_x = MPU6000_rawData.acc[0];
-	IMU_UserData.acc_y = MPU6000_rawData.acc[1];
-	IMU_UserData.acc_z = MPU6000_rawData.acc[2];
+	IMU_UserData.acc_x = -MPU6000_rawData.acc[0];
+	IMU_UserData.acc_y = +MPU6000_rawData.acc[1];
+	IMU_UserData.acc_z = +MPU6000_rawData.acc[2];
 
-	IMU_UserData.gyro_x = MPU6000_rawData.gyro[0] - MPU6000_rawData.gyro_zero[0];
-	IMU_UserData.gyro_y = MPU6000_rawData.gyro[1] - MPU6000_rawData.gyro_zero[1];
-	IMU_UserData.gyro_z = MPU6000_rawData.gyro[2] - MPU6000_rawData.gyro_zero[2];
+	IMU_UserData.gyro_x = +(MPU6000_rawData.gyro[0] - MPU6000_rawData.gyro_zero[0]);
+	IMU_UserData.gyro_y = -(MPU6000_rawData.gyro[1] - MPU6000_rawData.gyro_zero[1]);
+	IMU_UserData.gyro_z = -(MPU6000_rawData.gyro[2] - MPU6000_rawData.gyro_zero[2]);
 
 }
 
