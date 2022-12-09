@@ -25,6 +25,8 @@ typedef struct
 
 extern ANGLE_STATE_t F_S;
 
+extern float test_roll;
+
 void Angle_Init(void);
 void Angle_Update(float gyrox, float gyroy, float gyroz,
 				  float ax,    float ay,    float az,

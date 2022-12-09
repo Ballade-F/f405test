@@ -17,5 +17,6 @@ void Common_Init(void);
 void delay_init(void);
 void delay_us(uint32_t nus);
 void delay_ms(uint16_t nms);
+uint32_t getTime_us(void);
 
 #endif /* DRIVERS_COMMON_H_ */

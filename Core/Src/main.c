@@ -114,9 +114,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 //	float test[6] = {(float)(IMU_UserData.acc_x),(float)(IMU_UserData.acc_y),(float)(IMU_UserData.acc_z),(float)(IMU_UserData.gyro_x),(float)(IMU_UserData.gyro_y),(float)(IMU_UserData.gyro_z)};
-    float test[2] = {F_S.pitch,F_S.roll};
+    float test[4] = {test_roll,F_S.roll,F_S.pitch,F_S.yaw};
 
-	Debug_VarUpload((float*)(test),2,&huart1);
+	Debug_VarUpload((float*)(test),4,&huart1);
 	delay_ms(10);
 
 //	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
