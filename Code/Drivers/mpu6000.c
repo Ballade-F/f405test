@@ -116,6 +116,8 @@ void MPU6000_selfTest(void)
 		MPU6000_rawData.gyro_zero[i] = 0;
 	}
 
+	//等0.5s，防止刚上电时机体不平稳
+	delay_ms(500);
 	//舍弃前十个数
 	i = 10;
 	while(i--)

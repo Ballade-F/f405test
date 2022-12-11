@@ -7,7 +7,7 @@
 
 #include "imu.h"
 
-ANGLE_STATE_t F_S;
+IMU_STATE_t F_S;
 float IMU_IIR_kp = 0.6;
 float IMU_IIR_ki = 0.005;
 
@@ -31,7 +31,20 @@ void Angle_Update(float gyrox, float gyroy, float gyroz,
 				  float ax,    float ay,    float az,
 				  float dt)
 {
+	//存入角速度和加速度,以及时间
+	F_S.a_right = ax;
+	F_S.a_forward = ay;
+	F_S.a_up = az;
+
+	F_S.d_pitch = gyrox;
+	F_S.d_roll = gyroy;
+	F_S.d_yaw = gyroz;
+
+	//TODO:存入时间
+
+	//对比直接积分
 	test_roll += gyroy*dt;
+
 	gyrox *= DEG2RAD;
 	gyroy *= DEG2RAD;
 	gyroz *= DEG2RAD;

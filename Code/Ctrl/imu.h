@@ -17,13 +17,25 @@
 
 typedef struct
 {
+	uint32_t timeStamp;
 	float s_q[4];
-	float pitch;
 	float roll;
+	float pitch;
 	float yaw;
-}ANGLE_STATE_t;
 
-extern ANGLE_STATE_t F_S;
+	//角速度deg/s
+	float d_roll;
+	float d_pitch;
+	float d_yaw;
+
+	//加速度m/s2
+	float a_right;
+	float a_forward;
+	float a_up;
+
+}IMU_STATE_t;
+
+extern IMU_STATE_t F_S;
 
 extern float test_roll;
 

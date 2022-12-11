@@ -103,6 +103,8 @@ int main(void)
   Common_Init();
   Angle_Init();
   BMP280_Init();
+
+  //T = 2ms
    HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
