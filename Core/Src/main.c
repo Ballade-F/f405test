@@ -121,9 +121,7 @@ int main(void)
 	Debug_VarUpload((float*)(test),4,&huart1);
 	delay_ms(10);
 
-//	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
-//	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_3,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
-//	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_4,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
+
 
 
 

@@ -64,4 +64,9 @@ typedef struct
 }Ctrl_State_t;
 
 
+extern Ctrl_State_t StateCtrl_State;
+
+extern StateCtrlParam_t StateCtrl_param;
+
+
 #endif /* CTRL_STATE_CTRL_H_ */
