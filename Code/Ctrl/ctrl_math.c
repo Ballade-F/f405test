@@ -7,6 +7,20 @@
 
 #include "ctrl_math.h"
 
+float CTRL_Constrain(float input, float low_limit,float up_limit)
+{
+	if(input>up_limit)
+	{
+		return up_limit;
+	}
+	else if(input<low_limit)
+	{
+		return low_limit;
+	}
+	return input;
+}
+
+
 // https://github.com/Crashpilot1000/HarakiriWebstore1/blob/396715f73c6fcf859e0db0f34e12fe44bace6483/src/mw.c#L1292
 // http://http.developer.nvidia.com/Cg/atan2.html (not working correctly!)
 // Poly coefficients by @ledvinap (https://github.com/cleanflight/cleanflight/pull/1107)

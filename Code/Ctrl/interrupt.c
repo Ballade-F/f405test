@@ -10,10 +10,7 @@
 
 #include "common.h"
 #include "debug.h"
-#include "mpu6000.h"
-#include "bmp280.h"
-#include "pwm_dshot.h"
-#include "imu.h"
+#include "ctrl_task_list.h"
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -27,9 +24,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		uint32_t time_temp;
 //	    time_temp = getTime_us();
 //	    delay_us(100);
-		MPU6000_Data_UpDate();
-		Angle_Update(IMU_UserData.gyro_x,IMU_UserData.gyro_y,IMU_UserData.gyro_z,
-					 IMU_UserData.acc_x, IMU_UserData.acc_y, IMU_UserData.acc_z, 0.002);
+//		MPU6000_Data_UpDate();
+//		Angle_Update(IMU_UserData.gyro_x,IMU_UserData.gyro_y,IMU_UserData.gyro_z,
+//					 IMU_UserData.acc_x, IMU_UserData.acc_y, IMU_UserData.acc_z, 0.002);
 //		time_temp = getTime_us() - time_temp;
 //		if(time_temp>2000)
 //		{
@@ -41,14 +38,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 
 		//dshot600测试
-//	    uint16_t valuetest = 100;
+//	    uint16_t valuetest = 0;
 //	    uint16_t valuetest2 = 128;
 //
-//	    pwmWriteDigital(ESC_CMD,valuetest);
-//	    pwmWriteDigital(ESC_CMD2,valuetest2);
+//	    pwmWriteDigital(PwmDshot_M1,valuetest);
+//	    pwmWriteDigital(PwmDshot_M2,valuetest2);
 //
-//		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)ESC_CMD,ESC_CMD_BUF_LEN);
-//		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)ESC_CMD2,ESC_CMD_BUF_LEN);
+//		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)PwmDshot_M1,ESC_CMD_BUF_LEN);
+//		HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)PwmDshot_M2,ESC_CMD_BUF_LEN);
 
 
 	}

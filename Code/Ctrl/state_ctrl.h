@@ -68,5 +68,8 @@ extern Ctrl_State_t StateCtrl_State;
 
 extern StateCtrlParam_t StateCtrl_param;
 
+void StateCtrl_Init(void);
+void StateCtrl_Update(void);
+
 
 #endif /* CTRL_STATE_CTRL_H_ */

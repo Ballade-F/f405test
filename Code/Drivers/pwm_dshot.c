@@ -8,9 +8,10 @@
 #include "pwm_dshot.h"
 
 
-uint16_t ESC_CMD[ESC_CMD_BUF_LEN]={0};
-uint16_t ESC_CMD2[ESC_CMD_BUF_LEN]={0};
-
+uint16_t PwmDshot_M1[ESC_CMD_BUF_LEN]={0};
+uint16_t PwmDshot_M2[ESC_CMD_BUF_LEN]={0};
+uint16_t PwmDshot_M3[ESC_CMD_BUF_LEN]={0};
+uint16_t PwmDshot_M4[ESC_CMD_BUF_LEN]={0};
 
 static uint16_t prepareDshotPacket(const uint16_t value, int8_t requestTelemetry)
 {

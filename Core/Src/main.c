@@ -29,9 +29,7 @@
 /* USER CODE BEGIN Includes */
 #include "common.h"
 #include "debug.h"
-#include "imu.h"
-#include "bmp280.h"
-#include "pwm_dshot.h"
+#include "ctrl_task_list.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,9 +98,7 @@ int main(void)
   MX_DMA_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  Common_Init();
-  Angle_Init();
-  BMP280_Init();
+
 
   //T = 2ms
    HAL_TIM_Base_Start_IT(&htim6);

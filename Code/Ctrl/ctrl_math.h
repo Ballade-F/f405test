@@ -17,6 +17,8 @@
 #define MIN(a, b) 	(((a) < (b)) ? (a) : (b))
 #define MAX(a, b) 	(((a) > (b)) ? (a) : (b))
 
+
+float CTRL_Constrain(float input, float low_limit,float up_limit);
 float atan2_approx(float y, float x);
 float acos_approx(float x);
 

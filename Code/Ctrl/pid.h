@@ -10,6 +10,7 @@
 
 #include "common.h"
 #include "mpu6000.h"
+#include "ctrl_math.h"
 
 typedef struct
 {
