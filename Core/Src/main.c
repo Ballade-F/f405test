@@ -28,7 +28,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "common.h"
-#include "debug.h"
 #include "ctrl_task_list.h"
 /* USER CODE END Includes */
 
@@ -98,10 +97,13 @@ int main(void)
   MX_DMA_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  Ctrl_Init();
 
 
   //T = 2ms
    HAL_TIM_Base_Start_IT(&htim6);
+
+   HAL_UART_Receive_IT(&huart1, (uint8_t *)&test_u8, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -112,10 +114,11 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 //	float test[6] = {(float)(IMU_UserData.acc_x),(float)(IMU_UserData.acc_y),(float)(IMU_UserData.acc_z),(float)(IMU_UserData.gyro_x),(float)(IMU_UserData.gyro_y),(float)(IMU_UserData.gyro_z)};
-    float test[4] = {test_roll,F_S.roll,F_S.pitch,F_S.yaw};
+//    float test[4] = {test_roll,F_S.roll,F_S.pitch,F_S.yaw};
+	  float test[1] = {(float)test_u8};
 
-	Debug_VarUpload((float*)(test),4,&huart1);
-	delay_ms(10);
+	Debug_VarUpload((float*)(test),1,&huart1);
+	delay_ms(5);
 
 
 

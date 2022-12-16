@@ -105,6 +105,9 @@ void Angle_Update(float gyrox, float gyroy, float gyroz,
 
 
 	//7.计算rpy,右手系
+	//yaw:机体y轴在世界水平面上的投影，与世界y轴夹角
+	//pitch:机体y轴，与世界水平面的夹角
+	//roll:机体z轴，与机体y轴所在铅垂面的夹角
 
 	F_S.roll = -atan2_approx(gx_BF,gz_BF) * RAD2DEG;
 	F_S.pitch = -((0.5f * M_PIf) - acos_approx(-gy_BF)) * RAD2DEG;

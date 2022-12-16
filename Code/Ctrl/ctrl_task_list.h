@@ -8,11 +8,14 @@
 #ifndef CTRL_CTRL_TASK_LIST_H_
 #define CTRL_CTRL_TASK_LIST_H_
 
+#include "uart_communication.h"
 #include "common.h"
-#include "command.h"
 #include "mpu6000.h"
 #include "imu.h"
 #include "state_ctrl.h"
 #include "motor.h"
+
+void Ctrl_Init(void);
+void Ctrl_Task(void);
 
 #endif /* CTRL_CTRL_TASK_LIST_H_ */

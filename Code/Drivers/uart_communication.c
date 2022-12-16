@@ -6,10 +6,11 @@
  */
 
 
-#include "debug.h"
+#include "uart_communication.h"
 
 float test_time;
 
+uint8_t test_u8;
 
 
 
@@ -53,4 +54,10 @@ void Debug_VarUpload(float *my_var, uint8_t var_num,UART_HandleTypeDef *huart_pt
 
 
 
+}
+
+
+void Communication_Recieve(uint8_t *my_var, uint8_t var_num,UART_HandleTypeDef *huart_ptr)
+{
+	HAL_UART_Receive(huart_ptr, my_var, var_num, 1);
 }
