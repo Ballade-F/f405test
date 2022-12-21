@@ -252,6 +252,8 @@ void MPU6000Read(void)
 void MPU6000_Data_UpDate(void)
 {
 	MPU6000Read();
+	//转为东北天，后续可以将符号封装，在初始化赋值
+	//TODO:
 	IMU_UserData.acc_x = -MPU6000_rawData.acc[0];
 	IMU_UserData.acc_y = -MPU6000_rawData.acc[1];
 	IMU_UserData.acc_z = +MPU6000_rawData.acc[2];

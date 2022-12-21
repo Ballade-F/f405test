@@ -10,6 +10,7 @@
 
 #include "common.h"
 #include "ctrl_task_list.h"
+#include "state.h"
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -54,7 +55,16 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	 if(huart==&huart1)//可以在communication里面封装一个句柄
 	 {
 
-		 HAL_UART_Receive_IT(&huart1, (uint8_t *)&test_u8, 1);
+		 HAL_UART_Receive_IT(&huart1, (uint8_t *)&CommandRec, 1);
+
+		 if(CommandRec & (1<<1))
+		 {
+			 State_Arm();
+		 }
+		 else
+		 {
+			 State_DisArm();
+		 }
 	 }
 }
 

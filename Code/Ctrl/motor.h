@@ -8,7 +8,7 @@
 #ifndef CTRL_MOTOR_H_
 #define CTRL_MOTOR_H_
 
-#include "state_ctrl.h"
+#include <pos_ctrl.h>
 #include "common.h"
 #include "pwm_dshot.h"
 #include "ctrl_math.h"
@@ -30,5 +30,6 @@ extern Motor_State_t Motor_State;
 
 void Motor_Init(void);
 void Motor_Update(void);
+void Motor_Stop(void);
 
 #endif /* CTRL_MOTOR_H_ */

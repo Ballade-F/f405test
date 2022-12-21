@@ -5,8 +5,8 @@
  *      Author: Ballade_F
  */
 
-#ifndef CTRL_STATE_CTRL_H_
-#define CTRL_STATE_CTRL_H_
+#ifndef CTRL_POS_CTRL_H_
+#define CTRL_POS_CTRL_H_
 
 #include "pid.h"
 #include "motor.h"
@@ -46,7 +46,7 @@ typedef struct
 typedef struct
 {
 	pidParam_t pid[PID_NUM];
-}StateCtrlParam_t;
+}PosCtrlParam_t;
 
 typedef struct
 {
@@ -61,15 +61,15 @@ typedef struct
 	float out_yaw;
 
 
-}Ctrl_State_t;
+}PosCtrl_State_t;
 
 
-extern Ctrl_State_t StateCtrl_State;
+extern PosCtrl_State_t PosCtrl_State;
 
-extern StateCtrlParam_t StateCtrl_param;
+extern PosCtrlParam_t PosCtrl_param;
 
-void StateCtrl_Init(void);
-void StateCtrl_Update(void);
+void PosCtrl_Init(void);
+void PosCtrl_Update(void);
 
 
-#endif /* CTRL_STATE_CTRL_H_ */
+#endif /* CTRL_POS_CTRL_H_ */

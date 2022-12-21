@@ -43,10 +43,10 @@ void Motor_Update(void)
 	//TODO:
 
 	//2.计算各个电机，1~2000
-	Motor_State.m1 = CTRL_Constrain(Motor_State.thrust -StateCtrl_State.out_roll+StateCtrl_State.out_pitch-StateCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
-	Motor_State.m2 = CTRL_Constrain(Motor_State.thrust +StateCtrl_State.out_roll-StateCtrl_State.out_pitch-StateCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
-	Motor_State.m3 = CTRL_Constrain(Motor_State.thrust +StateCtrl_State.out_roll+StateCtrl_State.out_pitch+StateCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
-	Motor_State.m4 = CTRL_Constrain(Motor_State.thrust -StateCtrl_State.out_roll-StateCtrl_State.out_pitch+StateCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
+	Motor_State.m1 = CTRL_Constrain(Motor_State.thrust -PosCtrl_State.out_roll+PosCtrl_State.out_pitch-PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
+	Motor_State.m2 = CTRL_Constrain(Motor_State.thrust +PosCtrl_State.out_roll-PosCtrl_State.out_pitch-PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
+	Motor_State.m3 = CTRL_Constrain(Motor_State.thrust +PosCtrl_State.out_roll+PosCtrl_State.out_pitch+PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
+	Motor_State.m4 = CTRL_Constrain(Motor_State.thrust -PosCtrl_State.out_roll-PosCtrl_State.out_pitch+PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
 
 	//3.转为dshot协议值，48~2047
 	//TODO:arm保护
@@ -60,5 +60,18 @@ void Motor_Update(void)
 	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_3,(uint32_t*)PwmDshot_M3,ESC_CMD_BUF_LEN);
 	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_4,(uint32_t*)PwmDshot_M4,ESC_CMD_BUF_LEN);
 
+}
 
+
+void Motor_Stop(void)
+{
+	pwmWriteDigital(PwmDshot_M1,0);
+	pwmWriteDigital(PwmDshot_M2,0);
+	pwmWriteDigital(PwmDshot_M3,0);
+	pwmWriteDigital(PwmDshot_M4,0);
+
+	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)PwmDshot_M1,ESC_CMD_BUF_LEN);
+	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)PwmDshot_M2,ESC_CMD_BUF_LEN);
+	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_3,(uint32_t*)PwmDshot_M3,ESC_CMD_BUF_LEN);
+	HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_4,(uint32_t*)PwmDshot_M4,ESC_CMD_BUF_LEN);
 }
