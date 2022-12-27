@@ -57,8 +57,8 @@
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_tim3_ch1_trig;
 extern DMA_HandleTypeDef hdma_tim3_ch2;
-extern DMA_HandleTypeDef hdma_tim3_ch3;
 extern DMA_HandleTypeDef hdma_tim3_ch4_up;
+extern DMA_HandleTypeDef hdma_tim3_ch3;
 extern TIM_HandleTypeDef htim6;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */

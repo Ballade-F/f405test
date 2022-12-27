@@ -104,7 +104,7 @@ void Angle_Update(float gyrox, float gyroy, float gyroz,
 	gz_BF = 1 - 2*(F_S.s_q[1]*F_S.s_q[1] + F_S.s_q[2]*F_S.s_q[2]);
 
 
-	//7.计算rpy,右手系
+	//7.计算rpy,右手系，该顺序相当于ZXY顺序的欧拉旋转
 	//yaw:机体y轴在世界水平面上的投影，与世界y轴夹角
 	//pitch:机体y轴，与世界水平面的夹角
 	//roll:机体z轴，与机体y轴所在铅垂面的夹角

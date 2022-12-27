@@ -28,8 +28,8 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim6;
 DMA_HandleTypeDef hdma_tim3_ch1_trig;
 DMA_HandleTypeDef hdma_tim3_ch2;
-DMA_HandleTypeDef hdma_tim3_ch3;
 DMA_HandleTypeDef hdma_tim3_ch4_up;
+DMA_HandleTypeDef hdma_tim3_ch3;
 
 /* TIM3 init function */
 void MX_TIM3_Init(void)
@@ -182,24 +182,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 
     __HAL_LINKDMA(tim_baseHandle,hdma[TIM_DMA_ID_CC2],hdma_tim3_ch2);
 
-    /* TIM3_CH3 Init */
-    hdma_tim3_ch3.Instance = DMA1_Stream7;
-    hdma_tim3_ch3.Init.Channel = DMA_CHANNEL_5;
-    hdma_tim3_ch3.Init.Direction = DMA_MEMORY_TO_PERIPH;
-    hdma_tim3_ch3.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_tim3_ch3.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_tim3_ch3.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-    hdma_tim3_ch3.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-    hdma_tim3_ch3.Init.Mode = DMA_NORMAL;
-    hdma_tim3_ch3.Init.Priority = DMA_PRIORITY_HIGH;
-    hdma_tim3_ch3.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    if (HAL_DMA_Init(&hdma_tim3_ch3) != HAL_OK)
-    {
-      Error_Handler();
-    }
-
-    __HAL_LINKDMA(tim_baseHandle,hdma[TIM_DMA_ID_CC3],hdma_tim3_ch3);
-
     /* TIM3_CH4_UP Init */
     hdma_tim3_ch4_up.Instance = DMA1_Stream2;
     hdma_tim3_ch4_up.Init.Channel = DMA_CHANNEL_5;
@@ -220,6 +202,24 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
      Be aware that there is only one stream to perform all the requested DMAs. */
     __HAL_LINKDMA(tim_baseHandle,hdma[TIM_DMA_ID_CC4],hdma_tim3_ch4_up);
     __HAL_LINKDMA(tim_baseHandle,hdma[TIM_DMA_ID_UPDATE],hdma_tim3_ch4_up);
+
+    /* TIM3_CH3 Init */
+    hdma_tim3_ch3.Instance = DMA1_Stream7;
+    hdma_tim3_ch3.Init.Channel = DMA_CHANNEL_5;
+    hdma_tim3_ch3.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_tim3_ch3.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_tim3_ch3.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_tim3_ch3.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_tim3_ch3.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_tim3_ch3.Init.Mode = DMA_NORMAL;
+    hdma_tim3_ch3.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_tim3_ch3.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    if (HAL_DMA_Init(&hdma_tim3_ch3) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(tim_baseHandle,hdma[TIM_DMA_ID_CC3],hdma_tim3_ch3);
 
   /* USER CODE BEGIN TIM3_MspInit 1 */
 
@@ -251,22 +251,14 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 
   /* USER CODE END TIM3_MspPostInit 0 */
 
-    __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
     /**TIM3 GPIO Configuration
-    PB0     ------> TIM3_CH3
-    PB1     ------> TIM3_CH4
     PC6     ------> TIM3_CH1
     PC7     ------> TIM3_CH2
+    PC8     ------> TIM3_CH3
+    PC9     ------> TIM3_CH4
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -295,9 +287,9 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
     HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_CC1]);
     HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_TRIGGER]);
     HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_CC2]);
-    HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_CC3]);
     HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_CC4]);
     HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_UPDATE]);
+    HAL_DMA_DeInit(tim_baseHandle->hdma[TIM_DMA_ID_CC3]);
   /* USER CODE BEGIN TIM3_MspDeInit 1 */
 
   /* USER CODE END TIM3_MspDeInit 1 */
