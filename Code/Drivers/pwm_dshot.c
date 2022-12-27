@@ -8,10 +8,11 @@
 #include "pwm_dshot.h"
 
 
-uint16_t PwmDshot_M1[ESC_CMD_BUF_LEN]={0};
-uint16_t PwmDshot_M2[ESC_CMD_BUF_LEN]={0};
-uint16_t PwmDshot_M3[ESC_CMD_BUF_LEN]={0};
-uint16_t PwmDshot_M4[ESC_CMD_BUF_LEN]={0};
+uint32_t PwmDshot_M1[ESC_CMD_BUF_LEN]={0};
+uint32_t PwmDshot_M2[ESC_CMD_BUF_LEN]={0};
+uint32_t PwmDshot_M3[ESC_CMD_BUF_LEN]={0};
+uint32_t PwmDshot_M4[ESC_CMD_BUF_LEN]={0};
+uint32_t PwmDshot_M[ESC_CMD_BUF_LEN*4] = {0};
 
 static uint16_t prepareDshotPacket(const uint16_t value, int8_t requestTelemetry)
 {
@@ -33,7 +34,16 @@ static uint16_t prepareDshotPacket(const uint16_t value, int8_t requestTelemetry
     return packet;
 }
 
- void pwmWriteDigital(uint16_t *esc_cmd, uint16_t value)
+void pwmDataMerge(void)
+{
+	memcpy(PwmDshot_M,PwmDshot_M1,sizeof(PwmDshot_M1));
+	memcpy((PwmDshot_M+ESC_CMD_BUF_LEN*1),PwmDshot_M2,sizeof(PwmDshot_M2));
+	memcpy((PwmDshot_M+ESC_CMD_BUF_LEN*2),PwmDshot_M3,sizeof(PwmDshot_M3));
+	memcpy((PwmDshot_M+ESC_CMD_BUF_LEN*3),PwmDshot_M4,sizeof(PwmDshot_M4));
+
+}
+
+ void pwmWriteDigital(uint32_t *esc_cmd, uint16_t value)
 {
 	value = ( (value > 2047) ? 2047 : value );
 	value = prepareDshotPacket(value, 0);
@@ -54,4 +64,24 @@ static uint16_t prepareDshotPacket(const uint16_t value, int8_t requestTelemetry
     esc_cmd[14] = (value & 0x2) ? ESC_BIT_1 : ESC_BIT_0;
     esc_cmd[15] = (value & 0x1) ? ESC_BIT_1 : ESC_BIT_0;
 
+}
+
+void Dshot_BurstWrite(uint32_t *esc_cmd,uint16_t value_m1,uint16_t value_m2,uint16_t value_m3,uint16_t value_m4)
+{
+	value_m1 = ( (value_m1 > 2047) ? 2047 : value_m1 );
+	value_m2 = ( (value_m2 > 2047) ? 2047 : value_m2 );
+	value_m3 = ( (value_m3 > 2047) ? 2047 : value_m3 );
+	value_m4 = ( (value_m4 > 2047) ? 2047 : value_m4 );
+	value_m1 = prepareDshotPacket(value_m1, 0);
+	value_m2 = prepareDshotPacket(value_m2, 0);
+	value_m3 = prepareDshotPacket(value_m3, 0);
+	value_m4 = prepareDshotPacket(value_m4, 0);
+
+	for(uint8_t i = 0;i<16;++i)
+	{
+		esc_cmd[4*i] = (value_m1 & (0x0001 << (15-i))) ? ESC_BIT_1 : ESC_BIT_0;
+		esc_cmd[4*i+1] = (value_m2 & (0x0001 << (15-i))) ? ESC_BIT_1 : ESC_BIT_0;
+		esc_cmd[4*i+2] = (value_m3 & (0x0001 << (15-i))) ? ESC_BIT_1 : ESC_BIT_0;
+		esc_cmd[4*i+3] = (value_m4 & (0x0001 << (15-i))) ? ESC_BIT_1 : ESC_BIT_0;
+	}
 }

@@ -42,70 +42,84 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		static uint32_t worktime = 0;
 		worktime++;
 
-//		//从锁变解锁，重置worktime
-//		if(State_IsArmed() && !(StateLast_IsArmed()))
-//		{
-//			worktime = 0;
-//		}
-//		//解锁状态，无事发生
-//		else if(State_IsArmed() && StateLast_IsArmed())
-//		{
-//
-//		}
-//		//刚上锁或已经上锁，设置worktime到停机区间
-//		else
-//		{
-//			worktime = 10000;
-//		}
-//		//更新上一状态
-//		StateLast_Update();
+		//从锁变解锁，重置worktime
+		if(State_IsArmed() && !(StateLast_IsArmed()))
+		{
+			worktime = 0;
+		}
+		//解锁状态，无事发生
+		else if(State_IsArmed() && StateLast_IsArmed())
+		{
+
+		}
+		//刚上锁或已经上锁，设置worktime到停机区间
+		else
+		{
+			worktime = 10000;
+		}
+		//更新上一状态
+		StateLast_Update();
 //
 //
 		if(worktime<2000)
 		{
 			uint16_t valuetest = 0;
-			pwmWriteDigital(PwmDshot_M1,valuetest);
-			pwmWriteDigital(PwmDshot_M2,valuetest);
-			pwmWriteDigital(PwmDshot_M3,valuetest);
-			pwmWriteDigital(PwmDshot_M4,valuetest);
+			Ctrl_Task();
+			Dshot_BurstWrite(PwmDshot_M,valuetest,valuetest,valuetest,valuetest);
+			HAL_TIM_DMABurst_WriteStop(&htim3, TIM_DMA_UPDATE);
+			__HAL_TIM_CLEAR_FLAG(&htim3,TIM_FLAG_UPDATE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_4, TIM_CCx_ENABLE);
+			HAL_TIM_DMABurst_MultiWriteStart(&htim3, TIM_DMABASE_CCR1, TIM_DMA_UPDATE, PwmDshot_M, TIM_DMABURSTLENGTH_4TRANSFERS, (ESC_CMD_BUF_LEN*4));
+			TIM3->EGR = TIM_EGR_UG;
+			__HAL_TIM_ENABLE(&htim3);
 
-
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)PwmDshot_M1,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)PwmDshot_M2,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_3,(uint32_t*)PwmDshot_M3,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_4,(uint32_t*)PwmDshot_M4,ESC_CMD_BUF_LEN);
 			state_test = 0;
 		}
 		else if(worktime<4000)
 		{
+			Ctrl_Task();
 			uint16_t valuetest = 64;
-			pwmWriteDigital(PwmDshot_M1,valuetest);
-			pwmWriteDigital(PwmDshot_M2,valuetest);
-			pwmWriteDigital(PwmDshot_M3,valuetest);
-			pwmWriteDigital(PwmDshot_M4,valuetest);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)PwmDshot_M1,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)PwmDshot_M2,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_3,(uint32_t*)PwmDshot_M3,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_4,(uint32_t*)PwmDshot_M4,ESC_CMD_BUF_LEN);
+			Dshot_BurstWrite(PwmDshot_M,valuetest,valuetest,valuetest,valuetest);
+			HAL_TIM_DMABurst_WriteStop(&htim3, TIM_DMA_UPDATE);
+			__HAL_TIM_CLEAR_FLAG(&htim3,TIM_FLAG_UPDATE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_4, TIM_CCx_ENABLE);
+			HAL_TIM_DMABurst_MultiWriteStart(&htim3, TIM_DMABASE_CCR1, TIM_DMA_UPDATE, PwmDshot_M, TIM_DMABURSTLENGTH_4TRANSFERS, (ESC_CMD_BUF_LEN*4));
+			TIM3->EGR = TIM_EGR_UG;
+			__HAL_TIM_ENABLE(&htim3);
+
 			state_test = 1;
 		}
 		else if(worktime<200000)
 		{
 			uint16_t valuetest = 0;
-			pwmWriteDigital(PwmDshot_M1,valuetest);
-			pwmWriteDigital(PwmDshot_M2,valuetest);
-			pwmWriteDigital(PwmDshot_M3,valuetest);
-			pwmWriteDigital(PwmDshot_M4,valuetest);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1,(uint32_t*)PwmDshot_M1,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_2,(uint32_t*)PwmDshot_M2,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_3,(uint32_t*)PwmDshot_M3,ESC_CMD_BUF_LEN);
-			HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_4,(uint32_t*)PwmDshot_M4,ESC_CMD_BUF_LEN);
+			Ctrl_Task();
+			Dshot_BurstWrite(PwmDshot_M,valuetest,valuetest,valuetest,valuetest);
+			HAL_TIM_DMABurst_WriteStop(&htim3, TIM_DMA_UPDATE);
+			__HAL_TIM_CLEAR_FLAG(&htim3,TIM_FLAG_UPDATE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);
+			TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_4, TIM_CCx_ENABLE);
+			HAL_TIM_DMABurst_MultiWriteStart(&htim3, TIM_DMABASE_CCR1, TIM_DMA_UPDATE, PwmDshot_M, TIM_DMABURSTLENGTH_4TRANSFERS, (ESC_CMD_BUF_LEN*4));
+			TIM3->EGR = TIM_EGR_UG;
+			__HAL_TIM_ENABLE(&htim3);
+
+
 			state_test = 2;
 		}
 		else
 		{
 			worktime = 10000;
 		}
+
+
+
 	}
 }
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -115,7 +129,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 		 HAL_UART_Receive_IT(&huart1, (uint8_t *)&CommandRec, 1);
 
-		 if(CommandRec & (1<<1))
+		 if(CommandRec & (0x01<<1))
 		 {
 
 			 State_Arm();
