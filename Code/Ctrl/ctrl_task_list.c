@@ -20,7 +20,7 @@ void Ctrl_Init(void)
 
 void Ctrl_Task(void)
 {
-//	if(State_IsArmed())
+	if(State_IsArmed())
 	{
 		//1.陀螺仪加速度计获取数据
 		MPU6000_Data_UpDate();
@@ -33,10 +33,10 @@ void Ctrl_Task(void)
 		PosCtrl_Update();
 
 		//4.motor输出
-//		Motor_Update();
+		Motor_Update();
 	}
-//	else
-//	{
-//		Motor_Stop();
-//	}
+	else
+	{
+		Motor_Stop();
+	}
 }

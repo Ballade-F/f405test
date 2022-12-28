@@ -13,8 +13,8 @@
 #include "pwm_dshot.h"
 #include "ctrl_math.h"
 
-#define MOTOR_MAX 1000
-#define MOTOR_MIN 1
+#define MOTOR_MAX 200
+#define MOTOR_MIN 10
 
 typedef struct
 {
@@ -31,5 +31,6 @@ extern Motor_State_t Motor_State;
 void Motor_Init(void);
 void Motor_Update(void);
 void Motor_Stop(void);
+void Motor_Test(uint16_t value_m1,uint16_t value_m2,uint16_t value_m3,uint16_t value_m4);
 
 #endif /* CTRL_MOTOR_H_ */

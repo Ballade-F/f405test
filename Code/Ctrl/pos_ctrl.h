@@ -12,11 +12,14 @@
 #include "motor.h"
 #include "imu.h"
 
-#define PID_RATE_I_LIMIT 200.0f
+
+//200,300,500,300
+
+#define PID_RATE_I_LIMIT 50.0f
 #define PID_ANGLE_I_LIMIT 300.0f
 
-#define PID_RATE_OUT_LIMIT 500.0f
-#define PID_ANGLE_OUT_LIMIT 300.0f
+#define PID_RATE_OUT_LIMIT 90.0f
+#define PID_ANGLE_OUT_LIMIT 200.0f
 
 #define CTRL_dT 0.002f
 

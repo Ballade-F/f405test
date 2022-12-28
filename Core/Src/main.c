@@ -99,7 +99,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Ctrl_Init();
 
-  delay_ms(2000);
+  delay_ms(10);
 
   //T = 2ms
    HAL_TIM_Base_Start_IT(&htim6);
@@ -116,9 +116,11 @@ int main(void)
     /* USER CODE BEGIN 3 */
 //	float test[6] = {(float)(IMU_UserData.acc_x),(float)(IMU_UserData.acc_y),(float)(IMU_UserData.acc_z),(float)(IMU_UserData.gyro_x),(float)(IMU_UserData.gyro_y),(float)(IMU_UserData.gyro_z)};
 //    float test[4] = {test_roll,F_S.roll,F_S.pitch,F_S.yaw};
-	  float test[3] = {(float)FlightState,(float)FlightState_Last,(float)state_test};
+//	  float tmep_m1 = Motor_State.m1
+	  float test[12] = {(float)state_test,F_S.roll,F_S.pitch,F_S.yaw,PosCtrl_State.rateDesired_roll,PosCtrl_State.rateDesired_pitch,PosCtrl_State.out_roll,PosCtrl_State.out_pitch,
+	  	  	  	  	   (float)Motor_State.m1,(float)Motor_State.m2,(float)Motor_State.m3,(float)Motor_State.m4};
 
-	Debug_VarUpload((float*)(test),3,&huart1);
+	Debug_VarUpload((float*)(test),12,&huart1);
 
 
 

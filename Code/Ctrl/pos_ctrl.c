@@ -16,14 +16,14 @@ static PosCtrlParam_t posCtrl_paramDefault =
 {
 		.pid =
 		{
-				[RATE_ROLL]   = {85, 900, 18},
-				[RATE_PITCH]  = {90, 1000, 18},
-				[RATE_YAW]    = {120, 800, 0},
-				[ANGLE_ROLL]  = {600, 0, 0},
-				[ANGLE_PITCH] = {600, 0, 0},
-				[ANGLE_YAW]   = {600, 0, 0},
-				[VELOCITY_Z]  = {150, 200, 50},
-				[POSHOLD_Z]   = {45, 0, 0},
+				[RATE_ROLL]   = {0.8, 9, 0.018},
+				[RATE_PITCH]  = {0.8, 9, 0.018},
+				[RATE_YAW]    = {1.20, 8, 0},
+				[ANGLE_ROLL]  = {6, 0, 0},
+				[ANGLE_PITCH] = {6, 0, 0},
+				[ANGLE_YAW]   = {6, 0, 0},
+				[VELOCITY_Z]  = {1.50, 2, 0.05},
+				[POSHOLD_Z]   = {0.45, 0, 0},
 				[VELOCITY_XY] = {0, 0, 0},
 				[POSHOLD_XY]  = {0, 0, 0},
 		},
@@ -38,6 +38,7 @@ void posCtrl_resetParam(void)
 
 void PosCtrl_Init(void)
 {
+	posCtrl_resetParam();
 	PID_Init(&StateCtrl_PID[RATE_ROLL],PosCtrl_param.pid[RATE_ROLL].kp,PosCtrl_param.pid[RATE_ROLL].ki,PosCtrl_param.pid[RATE_ROLL].kd,
 			PID_RATE_I_LIMIT,PID_RATE_OUT_LIMIT,CTRL_dT);
 	PID_Init(&StateCtrl_PID[RATE_PITCH],PosCtrl_param.pid[RATE_PITCH].kp,PosCtrl_param.pid[RATE_PITCH].ki,PosCtrl_param.pid[RATE_PITCH].kd,
