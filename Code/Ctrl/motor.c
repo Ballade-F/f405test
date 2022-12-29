@@ -29,7 +29,7 @@ void Motor_Init(void)
 	Motor_State.m2 = 0;
 	Motor_State.m3 = 0;
 	Motor_State.m4 = 0;
-	Motor_State.thrust = 100;
+	Motor_State.thrust = 400;
 
 
 }
