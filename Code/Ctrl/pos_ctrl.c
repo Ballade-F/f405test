@@ -16,8 +16,8 @@ static PosCtrlParam_t posCtrl_paramDefault =
 {
 		.pid =
 		{
-				[RATE_ROLL]   = {1.5, 0, 0},
-				[RATE_PITCH]  = {1.5, 0, 0},
+				[RATE_ROLL]   = {2, 1, 0},
+				[RATE_PITCH]  = {2, 1, 0},
 				[RATE_YAW]    = {1.20, 8, 0},
 				[ANGLE_ROLL]  = {8, 0, 0},
 				[ANGLE_PITCH] = {8, 0, 0},

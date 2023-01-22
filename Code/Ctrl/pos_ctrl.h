@@ -15,7 +15,7 @@
 
 //200,300,500,300
 
-#define PID_RATE_I_LIMIT 50.0f
+#define PID_RATE_I_LIMIT 40.0f
 #define PID_ANGLE_I_LIMIT 300.0f
 
 #define PID_RATE_OUT_LIMIT 300.0f
