@@ -9,7 +9,7 @@
 #define CTRL_CTRL_TASK_LIST_H_
 
 #include <pos_ctrl.h>
-#include "uart_communication.h"
+#include <uart_communication.h>
 #include "common.h"
 #include "mpu6000.h"
 #include "imu.h"

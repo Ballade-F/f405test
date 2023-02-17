@@ -10,7 +10,7 @@
 
 uint32_t FlightState = 0;
 uint32_t FlightState_Last = 0;
-uint8_t CommandRec = 0;
+
 
 //测试wifi解锁
 uint32_t state_test = 0;

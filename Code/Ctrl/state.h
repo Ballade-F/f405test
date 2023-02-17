@@ -20,7 +20,6 @@ typedef enum
 extern uint32_t FlightState;
 extern uint32_t FlightState_Last;
 
-extern uint8_t CommandRec;
 
 extern uint32_t state_test;
 

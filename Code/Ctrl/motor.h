@@ -13,7 +13,7 @@
 #include "pwm_dshot.h"
 #include "ctrl_math.h"
 
-#define MOTOR_MAX 700
+#define MOTOR_MAX 1300
 #define MOTOR_MIN 10
 
 typedef struct

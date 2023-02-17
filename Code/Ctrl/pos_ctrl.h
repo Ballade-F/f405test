@@ -15,7 +15,7 @@
 
 //200,300,500,300
 
-#define PID_RATE_I_LIMIT 40.0f
+#define PID_RATE_I_LIMIT 200.0f
 #define PID_ANGLE_I_LIMIT 300.0f
 
 #define PID_RATE_OUT_LIMIT 300.0f
@@ -70,6 +70,8 @@ typedef struct
 extern PosCtrl_State_t PosCtrl_State;
 
 extern PosCtrlParam_t PosCtrl_param;
+
+extern PID_handle_t StateCtrl_PID[PID_NUM];
 
 void PosCtrl_Init(void);
 void PosCtrl_Update(void);
