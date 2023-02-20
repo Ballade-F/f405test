@@ -117,11 +117,12 @@ int main(void)
 //	float test[6] = {(float)(IMU_UserData.acc_x),(float)(IMU_UserData.acc_y),(float)(IMU_UserData.acc_z),(float)(IMU_UserData.gyro_x),(float)(IMU_UserData.gyro_y),(float)(IMU_UserData.gyro_z)};
 //    float test[4] = {test_roll,F_S.roll,F_S.pitch,F_S.yaw};
 //	  float tmep_m1 = Motor_State.m1
+
 	  delay_ms(50);
 //	  float test[13] = {F_S.roll,F_S.pitch,F_S.d_roll,F_S.d_pitch,PosCtrl_State.rateDesired_roll,PosCtrl_State.rateDesired_pitch,PosCtrl_State.out_roll,PosCtrl_State.out_pitch,
 //	  	  	  	  	   (float)Motor_State.m1,(float)Motor_State.m2,(float)Motor_State.m3,(float)Motor_State.m4,(float)FlightState};
 
-	  float test[13] = {StateCtrl_PID[RATE_ROLL].i_sum,StateCtrl_PID[RATE_PITCH].i_sum,F_S.d_roll,F_S.d_pitch,PosCtrl_State.rateDesired_roll,PosCtrl_State.rateDesired_pitch,PosCtrl_State.out_roll,PosCtrl_State.out_pitch,
+	  float test[13] = {F_S.roll,F_S.pitch,StateCtrl_PID[RATE_ROLL].i_sum,StateCtrl_PID[RATE_PITCH].i_sum,PosCtrl_State.rateDesired_roll,PosCtrl_State.rateDesired_pitch,PosCtrl_State.out_roll,PosCtrl_State.out_pitch,
 	  	  	  	  	  	   (float)Motor_State.m1,(float)Motor_State.m2,(float)Motor_State.m3,(float)Motor_State.m4,(float)FlightState};
 
 
