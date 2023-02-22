@@ -126,30 +126,36 @@ void MPU6000_selfTest(void)
 		delay_ms(1);
 	}
 
-	//读1000次取平均，若用卡尔曼滤波则可以再取方差
-	i = 1000;
-	while(i--)
+	do
 	{
-		MPU6000Read();
-		for(int j = 0;j<3;++j)
+		//读1000次取平均，若用卡尔曼滤波则可以再取方差
+		i = 1000;
+		while(i--)
 		{
-			MPU6000_rawData.acc_ave[j] += MPU6000_rawData.acc[j];
+			MPU6000Read();
+			for(int j = 0;j<3;++j)
+			{
+				MPU6000_rawData.acc_ave[j] += MPU6000_rawData.acc[j];
+			}
+			for(int j = 0;j<3;++j)
+			{
+				MPU6000_rawData.gyro_zero[j] += MPU6000_rawData.gyro[j];
+			}
+			delay_ms(1);
 		}
-		for(int j = 0;j<3;++j)
-		{
-			MPU6000_rawData.gyro_zero[j] += MPU6000_rawData.gyro[j];
-		}
-		delay_ms(1);
-	}
 
-	for(int j = 0;j<3;++j)
-	{
-		MPU6000_rawData.acc_ave[j] *= 0.001;
-	}
-	for(int j = 0;j<3;++j)
-	{
-		MPU6000_rawData.gyro_zero[j] *= 0.001;
-	}
+		for(int j = 0;j<3;++j)
+		{
+			MPU6000_rawData.acc_ave[j] *= 0.001;
+		}
+		for(int j = 0;j<3;++j)
+		{
+			MPU6000_rawData.gyro_zero[j] *= 0.001;
+		}
+
+	}while(MPU6000_rawData.gyro_zero[0]>IMU_DEAD_ZONE || MPU6000_rawData.gyro_zero[0]<-IMU_DEAD_ZONE ||
+		   MPU6000_rawData.gyro_zero[1]>IMU_DEAD_ZONE || MPU6000_rawData.gyro_zero[1]<-IMU_DEAD_ZONE ||
+		   MPU6000_rawData.gyro_zero[2]>IMU_DEAD_ZONE || MPU6000_rawData.gyro_zero[2]<-IMU_DEAD_ZONE );
 
 }
 

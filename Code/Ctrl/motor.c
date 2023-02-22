@@ -34,6 +34,15 @@ void Motor_Init(void)
 
 }
 
+void Motor_SetThrust(uint16_t thrust)
+{
+	if(thrust>MOTOR_MAX)
+	{
+		thrust = MOTOR_MAX;
+	}
+	Motor_State.thrust = thrust;
+}
+
 void Motor_Update(void)
 {
 //	motorPWM.m1 = thrust -r+p-y;
@@ -45,6 +54,11 @@ void Motor_Update(void)
 	//TODO:
 
 	//2.计算各个电机，1~2000
+//	Motor_State.m1 = Motor_State.thrust;
+//	Motor_State.m2 = Motor_State.thrust;
+//	Motor_State.m3 = Motor_State.thrust;
+//	Motor_State.m4 = Motor_State.thrust;
+
 	Motor_State.m1 = CTRL_Constrain(Motor_State.thrust -PosCtrl_State.out_roll+PosCtrl_State.out_pitch-PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
 	Motor_State.m2 = CTRL_Constrain(Motor_State.thrust +PosCtrl_State.out_roll-PosCtrl_State.out_pitch-PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
 	Motor_State.m3 = CTRL_Constrain(Motor_State.thrust +PosCtrl_State.out_roll+PosCtrl_State.out_pitch+PosCtrl_State.out_yaw , MOTOR_MIN ,MOTOR_MAX);
@@ -78,6 +92,10 @@ void Motor_Update(void)
 void Motor_Stop(void)
 {
 	HAL_TIM_DMABurst_WriteStop(&htim3, TIM_DMA_UPDATE);
+	Motor_State.m1 = 0;
+	Motor_State.m2 = 0;
+	Motor_State.m3 = 0;
+	Motor_State.m4 = 0;
 	Dshot_BurstWrite(PwmDshot_M,0,0,0,0);
 	__HAL_TIM_CLEAR_FLAG(&htim3,TIM_FLAG_UPDATE);
 	TIM_CCxChannelCmd(htim3.Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);

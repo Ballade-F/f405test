@@ -41,7 +41,7 @@ void communication_dataProcess(void)
 		}
 		break;
 	case Param_Thrust:
-
+		Motor_SetThrust((uint16_t)(*commandData_ptr));
 
 		break;
 	default:
@@ -64,7 +64,11 @@ void Communication_Receive(void)
 			{
 				recNum++;
 			}
-			else								//帧尾异常
+			else if(uartRec == 0x5A)								//帧尾异常
+			{
+				recNum = 1;
+			}
+			else
 			{
 				recNum = 0;
 			}
@@ -114,7 +118,6 @@ void Debug_VarUpload(float *my_var, uint8_t var_num)
 	data_ptr[7] = 0xaa;
 	data_ptr[8] = 0xff;
 	data_ptr[9] = 0x01;
-
 	//dataNum
 	data_ptr[10] = var_num;
 	//data
