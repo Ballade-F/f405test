@@ -63,12 +63,12 @@ void PosCtrl_Update(void)
 	//2.外环，角度环得期望角速度
 	PosCtrl_State.rateDesired_roll = PID_Calculate(&StateCtrl_PID[ANGLE_ROLL],0 - F_S.roll);
 	PosCtrl_State.rateDesired_pitch = PID_Calculate(&StateCtrl_PID[ANGLE_PITCH],0 - F_S.pitch);
-//	PosCtrl_State.rateDesired_yaw = PID_Calculate(&StateCtrl_PID[ANGLE_YAW], 0 - F_S.yaw);
+	PosCtrl_State.rateDesired_yaw = PID_Calculate(&StateCtrl_PID[ANGLE_YAW], 0 - F_S.yaw);
 
 	//3.内环，角速度环得rpy输出分量
 	PosCtrl_State.out_roll = PID_Calculate(&StateCtrl_PID[RATE_ROLL],PosCtrl_State.rateDesired_roll - F_S.d_roll);
 	PosCtrl_State.out_pitch = PID_Calculate(&StateCtrl_PID[RATE_PITCH],PosCtrl_State.rateDesired_pitch - F_S.d_pitch);
-//	PosCtrl_State.out_yaw = PID_Calculate(&StateCtrl_PID[RATE_YAW], PosCtrl_State.rateDesired_yaw - F_S.d_yaw);
+	PosCtrl_State.out_yaw = PID_Calculate(&StateCtrl_PID[RATE_YAW], PosCtrl_State.rateDesired_yaw - F_S.d_yaw);
 	//
 
 }

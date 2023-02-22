@@ -11,6 +11,7 @@
 
 #include "common.h"
 #include "state.h"
+#include "motor.h"
 
 #define SERIAL_DATA_LEN      (5)
 
@@ -22,8 +23,8 @@ typedef struct uart_com_handle
 
 typedef enum
 {
-	Fly_Start								= 1,
-	Param_Thrust							= 2,
+	Fly_Start								= 2,
+	Param_Thrust							= 3,
 }command_e;
 
 

@@ -113,6 +113,9 @@
 //8G, 8.0 * 9.8 / 32768
 #define ACC_UNIT 0.00239257812f
 
+//
+#define IMU_DEAD_ZONE 10
+
 enum mpu6000_dlpf_bw {
 	MPU6000_DLPF_BW_256 = 0,
 	MPU6000_DLPF_BW_188,
