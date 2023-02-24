@@ -98,9 +98,10 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
+  Common_Init();
+
   delay_ms(4000);
   Ctrl_Init();
-
 
   //T = 2ms
    HAL_TIM_Base_Start_IT(&htim6);
@@ -123,12 +124,13 @@ int main(void)
 //	  float test[13] = {F_S.roll,F_S.pitch,F_S.d_roll,F_S.d_pitch,PosCtrl_State.rateDesired_roll,PosCtrl_State.rateDesired_pitch,PosCtrl_State.out_roll,PosCtrl_State.out_pitch,
 //	  	  	  	  	   (float)Motor_State.m1,(float)Motor_State.m2,(float)Motor_State.m3,(float)Motor_State.m4,(float)FlightState};
 
+
 	  float test[13] = {F_S.roll,F_S.pitch,F_S.yaw,StateCtrl_PID[RATE_ROLL].i_sum,StateCtrl_PID[RATE_PITCH].i_sum,StateCtrl_PID[RATE_YAW].i_sum,F_S.d_roll,F_S.d_pitch,
 	  	  	  	  	  	   (float)Motor_State.m1,(float)Motor_State.m2,(float)Motor_State.m3,(float)Motor_State.m4,(float)FlightState};
 
-//	  float test[13] = {0,1,2,3,4,5,6,7,8,9,10,1.1,-0.5};
 
-	Debug_VarUpload((float*)(test),13);
+
+	Debug_VarUpload((float*)(test),1);
 
 
 

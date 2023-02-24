@@ -10,7 +10,6 @@
 
 void Ctrl_Init(void)
 {
-	Common_Init();
 	Communication_Init();
 	Angle_Init();
 	//BMP280_Init();

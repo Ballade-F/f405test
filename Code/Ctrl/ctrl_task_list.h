@@ -15,6 +15,7 @@
 #include "imu.h"
 #include "motor.h"
 #include "state.h"
+#include "position.h"
 
 void Ctrl_Init(void);
 void Ctrl_Task(void);

@@ -59,8 +59,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //
 //
 
-		Ctrl_Task();
-
 //		if(worktime<3000)
 //		{
 //			uint16_t valuetest = 0;
@@ -86,7 +84,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			worktime = 10000;
 //		}
 
-
+//		Ctrl_Task();
 
 	}
 }

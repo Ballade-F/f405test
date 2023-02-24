@@ -59,6 +59,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define MPU_CS_Pin GPIO_PIN_2
 #define MPU_CS_GPIO_Port GPIOC
+#define SWIIC_sck_Pin GPIO_PIN_12
+#define SWIIC_sck_GPIO_Port GPIOC
+#define SWIIC_sda_Pin GPIO_PIN_2
+#define SWIIC_sda_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
