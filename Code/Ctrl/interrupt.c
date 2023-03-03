@@ -12,14 +12,13 @@
 #include "ctrl_task_list.h"
 #include "state.h"
 #include "uart_communication.h"
+#include "mtf01.h"
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim==&htim6)
 	{
-		//光流测试
-//		PMW3901_Update();
-//		float test[2] = {(float)PMW3901_Motion.deltaX,(float)PMW3901_Motion.deltaY};
+
 
 		//测时间
 //		uint32_t time_temp;
@@ -93,17 +92,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	 if(huart==uart_communication.uart_ch)//可以在communication里面封装一个句柄
 	 {
 		 Communication_Receive();
-//		 HAL_UART_Receive_IT(&huart1, (uint8_t *)&CommandRec, 1);
-//
-//		 if(CommandRec & (0x01<<1))
-//		 {
-//
-//			 State_Arm();
-//		 }
-//		 else
-//		 {
-//			 State_DisArm();
-//		 }
+	 }
+	 if(huart==mtf01_dev.uart_ch)
+	 {
+		 mtf01_DataProcess();
 	 }
 }
 
