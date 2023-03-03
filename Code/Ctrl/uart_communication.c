@@ -14,24 +14,31 @@ uint8_t test_u8;
 Uart_Com_Handle_t uart_communication;
 
 uint8_t uartRec = 0;
+//
 uint8_t recNum = 0;
 uint8_t CommandRec[SERIAL_DATA_LEN] = {0};
+//
+COMMAND_MSG_t command_receMsg;
 
 void Communication_Init(void)
 {
 	uart_communication.uart_ch = &huart1;
 	HAL_UART_Receive_IT(uart_communication.uart_ch, (uint8_t *)&uartRec,1);
+	command_receMsg.status = 0;
+	command_receMsg.payload_cnt = 0;
 }
 
 
 void communication_dataProcess(void)
 {
 
-	uint32_t *commandData_ptr = &(CommandRec[1]);
-	switch(CommandRec[0])
+
+	uint32_t command_data;
+	memcpy(&command_data,command_receMsg.payload+1,sizeof(uint32_t));
+	switch(command_receMsg.payload[0])
 	{
 	case Fly_Start:
-		if(*commandData_ptr == ARMED)
+		if(command_data == ARMED)
 		{
 			State_Arm();
 		}
@@ -41,7 +48,7 @@ void communication_dataProcess(void)
 		}
 		break;
 	case Param_Thrust:
-		Motor_SetThrust((uint16_t)(*commandData_ptr));
+		Motor_SetThrust((uint16_t)command_data);
 
 		break;
 	default:
@@ -53,52 +60,106 @@ void communication_dataProcess(void)
 
 }
 
-
-void Communication_Receive(void)
+uint8_t command_parse_char(COMMAND_MSG_t* msg, uint8_t data)
 {
-	if(recNum > 0 )
-	{
-		if(recNum == SERIAL_DATA_LEN +1)		//读完帧头和数据
+	switch(msg->status)
 		{
-			if(uartRec == 0xA5)
+		case Header:
+			if(data == COMMAND_MSG_HEAD)
 			{
-				recNum++;
+				msg->status++;
 			}
-			else if(uartRec == 0x5A)								//帧尾异常
+			break;
+
+		case Load:
+			msg->payload[msg->payload_cnt] = data;
+			msg->payload_cnt++;
+			if(msg->payload_cnt == SERIAL_DATA_LEN)
 			{
-				recNum = 1;
+				msg->payload_cnt = 0;
+				msg->status++;
+			}
+			break;
+
+		case Tail:
+			if(data == COMMAND_MSG_TAIL)
+			{
+				msg->status = Header;
+				return 1;
+			}
+			else if(data == COMMAND_MSG_HEAD)
+			{
+				msg->status = Load;
+				msg->payload_cnt = 0;
+				return 0;
 			}
 			else
 			{
-				recNum = 0;
+				msg->status = Header;
+				msg->payload_cnt = 0;
+				return 0;
 			}
-		}
-		else									//读数据
-		{
-			CommandRec[recNum-1] = uartRec;
-			recNum++;
-		}
-	}
+			break;
 
-	else
-	{
-		if(uartRec == 0x5A)
-		{
-			recNum = 1;
+		default:
+			msg->status = Header;
+			msg->payload_cnt = 0;
+			break;
 		}
-		else
-		{
-			recNum = 0;
-		}
-	}
+	return 0;
+}
 
-	if(recNum == 2+SERIAL_DATA_LEN)				//读完帧头+数据+帧尾
+void Communication_Receive(void)
+{
+	if(command_parse_char(&command_receMsg,uartRec))
 	{
 		communication_dataProcess();
-		recNum = 0;
 	}
-
 	HAL_UART_Receive_IT(uart_communication.uart_ch, (uint8_t *)&uartRec,1);
+
+//	if(recNum > 0 )
+//	{
+//		if(recNum == SERIAL_DATA_LEN +1)		//读完帧头和数据
+//		{
+//			if(uartRec == 0xA5)
+//			{
+//				recNum++;
+//			}
+//			else if(uartRec == 0x5A)								//帧尾异常
+//			{
+//				recNum = 1;
+//			}
+//			else
+//			{
+//				recNum = 0;
+//			}
+//		}
+//		else									//读数据
+//		{
+//			CommandRec[recNum-1] = uartRec;
+//			recNum++;
+//		}
+//	}
+//
+//	else
+//	{
+//		if(uartRec == 0x5A)
+//		{
+//			recNum = 1;
+//		}
+//		else
+//		{
+//			recNum = 0;
+//		}
+//	}
+//
+//	if(recNum == 2+SERIAL_DATA_LEN)				//读完帧头+数据+帧尾
+//	{
+//		communication_dataProcess();
+//		recNum = 0;
+//	}
+//
+//	HAL_UART_Receive_IT(uart_communication.uart_ch, (uint8_t *)&uartRec,1);
 }
 
 

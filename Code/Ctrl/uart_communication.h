@@ -12,8 +12,11 @@
 #include "common.h"
 #include "state.h"
 #include "motor.h"
+#include "string.h"
 
 #define SERIAL_DATA_LEN      (5)
+#define COMMAND_MSG_HEAD	 (0X5A)
+#define COMMAND_MSG_TAIL	 (0XA5)
 
 typedef struct uart_com_handle
 {
@@ -27,6 +30,19 @@ typedef enum
 	Param_Thrust							= 3,
 }command_e;
 
+typedef enum
+{
+	Header									= 0,
+	Load									= 1,
+	Tail									= 2,
+}uart_status_e;
+
+typedef struct
+{
+	uint8_t payload[SERIAL_DATA_LEN];
+	uart_status_e status;
+	uint8_t payload_cnt;
+}COMMAND_MSG_t;
 
 extern float test_time;
 extern uint8_t test_u8;
