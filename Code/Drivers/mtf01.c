@@ -31,6 +31,10 @@ void mtf01_Init(void)
 
 void mtf01_DataProcess(void)
 {
+	//测时间
+//	uint32_t time_temp;
+//	time_temp = getTime_us();
+
 	mtf01_receMsg.status = 0;
 	mtf01_receMsg.payload_cnt = 0;
 	for(int i = 0;i <MICOLINK_MAX_LEN*2;++i)
@@ -42,6 +46,13 @@ void mtf01_DataProcess(void)
 		}
 	}
 	HAL_UART_Receive_DMA(mtf01_dev.uart_ch, mtf01_receiveBuf,sizeof(mtf01_receiveBuf));
+
+	//27us
+//	time_temp = getTime_us() - time_temp;
+//	if(time_temp>2000)
+//	{
+//		time_temp--;
+//	}
 }
 
 
@@ -114,7 +125,7 @@ uint8_t micolink_parse_char(MICOLINK_MSG_t* msg, uint8_t data)
         break;
 
     case 1:     // 设备ID
-    	if(data == MICOLINK_MSG_ID_RANGE_SENSOR)
+    	if(data == MICOLINK_MSG_DEV_ID)
     	{
     		msg->dev_id = data;
 			msg->status++;
