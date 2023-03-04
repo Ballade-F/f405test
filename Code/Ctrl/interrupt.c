@@ -83,7 +83,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			worktime = 10000;
 //		}
 
-//		Ctrl_Task();
+		Ctrl_Task();
 
 	}
 }
@@ -93,7 +93,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	 {
 		 Communication_Receive();
 	 }
-	 if(huart==mtf01_dev.uart_ch)
+	 else if(huart==mtf01_dev.uart_ch)
 	 {
 		 mtf01_DataProcess();
 	 }
