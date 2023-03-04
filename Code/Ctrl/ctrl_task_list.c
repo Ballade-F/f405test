@@ -11,7 +11,9 @@
 void Ctrl_Init(void)
 {
 	Communication_Init();
+	mtf01_Init();
 	Angle_Init();
+
 	//BMP280_Init();
 
 	PosCtrl_Init();

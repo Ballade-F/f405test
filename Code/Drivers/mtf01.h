@@ -13,8 +13,9 @@
 #include "string.h"
 
 #define MICOLINK_MSG_HEAD            0xEF
-#define MICOLINK_MAX_PAYLOAD_LEN     64
-#define MICOLINK_MAX_LEN             MICOLINK_MAX_PAYLOAD_LEN + 7
+#define MICOLINK_MSG_DEV_ID          0x0F
+#define MICOLINK_MAX_PAYLOAD_LEN     0x14
+#define MICOLINK_MAX_LEN             (MICOLINK_MAX_PAYLOAD_LEN + 7)
 
 enum
 {

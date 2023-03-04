@@ -16,6 +16,7 @@
 #include "motor.h"
 #include "state.h"
 #include "position.h"
+#include "mtf01.h"
 
 void Ctrl_Init(void);
 void Ctrl_Task(void);
